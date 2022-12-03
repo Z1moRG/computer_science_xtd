@@ -13,7 +13,8 @@ def to_dec(kwart_value, multiplier):
 
 def conv_time(kwart_time):
     kwart_time = kwart_time.split(':')
-    return time(hour=to_dec(kwart_time[0], 24//4), \
+    return time( \
+        hour=to_dec(kwart_time[0], 24//4), \
         minute=to_dec(kwart_time[1], 60//4), \
         second=to_dec(kwart_time[2], 60//4))
 
@@ -29,9 +30,13 @@ with open(filename) as file_object:
 
 count = bin_to_dec(lines[0])
 
-correct_measurement, probable_measurement, error_measurement  = 0, 0, 0
 prev_mass = -1
 
+measurement = {
+    "correct": 0,
+    "probable": 0,
+    "error": 0
+}
 
 continuous_period = {
     'begin_time': time(0, 0, 0),
@@ -59,7 +64,7 @@ for n in range(1, count + 1):
     if prev_mass != -1:
         delta = abs((current_mass - prev_mass) / prev_mass)
         if delta <= 0.05:
-            correct_measurement += 1
+            measurement['correct'] += 1
             if continuous_period['counter'] == 0:
                 continuous_period['begin_time'] = measurement_time
             continuous_period['end_time'] = measurement_time
@@ -67,10 +72,10 @@ for n in range(1, count + 1):
             print("correct")
         else:
             if delta <= 0.10:
-                probable_measurement += 1
+                measurement['probable'] += 1
                 print("probable")
             else:
-                error_measurement += 1
+                measurement['error'] += 1
                 print("error")
             if longest_period['counter'] <= continuous_period['counter']:
                 longest_period['period'] = str( \
@@ -79,22 +84,12 @@ for n in range(1, count + 1):
                 longest_period['counter'] = continuous_period['counter']
                 continuous_period['counter'] = 0
 
-
     prev_mass = current_mass
 
 print("--------------------------------------------------------------------")
-print(f"correct_measurement: {correct_measurement},\
-    probable_measurement: {probable_measurement},\
-    error_measurement: {error_measurement}")
 
+for key, value in measurement.items():
+    print(f"{key} measurement = {value}")
 
 for key, value in longest_period.items():
     print(f"{key} = {value}")
-
-
-
-
-#    try:
-#        print(unbinary(line.strip()))
-#    except ValueError:
-#        pass
