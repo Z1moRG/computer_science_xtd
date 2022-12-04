@@ -1,5 +1,7 @@
 from datetime import time, datetime, date
 
+# Funkcja zamieniająca liczbę w systemie binarnym na liczbę w systemie dziesiętnym.
+# Normalnie można użyć int(binary_str, 2)
 def bin_to_dec(numbers):
     decimal_number = 0
     for power, binary_digit in enumerate(reversed(numbers.strip())):
@@ -14,9 +16,9 @@ def to_dec(kwart_value, multiplier):
 def conv_time(kwart_time):
     kwart_time = kwart_time.split(':')
     return time( \
-        hour=to_dec(kwart_time[0], 24//4), \
-        minute=to_dec(kwart_time[1], 60//4), \
-        second=to_dec(kwart_time[2], 60//4))
+        hour = to_dec(kwart_time[0], 24//4), \
+        minute = to_dec(kwart_time[1], 60//4), \
+        second = to_dec(kwart_time[2], 60//4))
 
 def conv_mass(kwart_mass):
     return to_dec(kwart_mass, 1000//4)
@@ -30,7 +32,7 @@ with open(filename) as file_object:
 
 count = bin_to_dec(lines[0])
 
-prev_mass = -1
+prev_mass = None
 
 measurement = {
     "correct": 0,
@@ -53,15 +55,14 @@ longest_period = {
 for n in range(1, count + 1):
     data = lines[n].split()
 
-    print("-----------------------------")
-    print(data)
+    print("---------------------------------")
+    print(f"{data[0]}\t{data[1]}")
 
     measurement_time = conv_time(data[0])
-    print(measurement_time)
-    print(conv_mass(data[1]))
-
     current_mass = conv_mass(data[1])
-    if prev_mass != -1:
+    print(f"{measurement_time}\t\t{current_mass}")
+
+    if prev_mass:
         delta = abs((current_mass - prev_mass) / prev_mass)
         if delta <= 0.05:
             measurement['correct'] += 1
@@ -86,10 +87,10 @@ for n in range(1, count + 1):
 
     prev_mass = current_mass
 
-print("--------------------------------------------------------------------")
+print("=================================")
 
 for key, value in measurement.items():
-    print(f"{key} measurement = {value}")
+    print(f"{key} measurement\t{value}")
 
 for key, value in longest_period.items():
-    print(f"{key} = {value}")
+    print(f"{key}\t\t\t{value}")
