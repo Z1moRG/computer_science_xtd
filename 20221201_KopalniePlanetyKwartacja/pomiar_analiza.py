@@ -73,6 +73,8 @@ for n in range(1, count + 1):
     current_mass = conv_mass(data[1])
     print(f"{measurement_time}\t\t{current_mass}")
 
+    # Flaga błędu pomiaru ustawana na False
+    measurement_error = False
     if prev_mass:
         delta = abs((current_mass - prev_mass) / prev_mass)     # Wyliczenie różnicy pomiaru
         # Sprawdzenie do jakiego przedziału należy pomiar (zad 1.1)
@@ -89,6 +91,8 @@ for n in range(1, count + 1):
                 print("probable")
             else:
                 measurement['error'] += 1
+                # Flaga błędu pomiaru ustawiona na True
+                measurement_error = True
                 print("error")
             # Wyznaczenie najdluższego okresu i ilości pomiarów właściwych (zad 1.2)
             if longest_period['counter'] <= continuous_period['counter']:
@@ -99,8 +103,10 @@ for n in range(1, count + 1):
                 longest_period['counter'] = continuous_period['counter']
                 continuous_period['counter'] = 0
 
-    # Zapamiętanie wartości masy z poprzedniej iteracji
-    prev_mass = current_mass
+    # Zapamiętanie wartości masy z poprzedniej iteracji jeśli nie była błędna
+    # Tylko jeśli flaga błędu measurement_error jest równa False (zad 1.1 pkt 3)
+    # W przypadku błędu pomiaru nie zmieniamy wartości prev_mass
+    prev_mass = current_mass if measurement_error == False else prev_mass
 
 print("=================================")
 
