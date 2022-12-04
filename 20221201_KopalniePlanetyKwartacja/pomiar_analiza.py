@@ -17,6 +17,7 @@ def to_dec(kwart_value, multiplier):
     return kwart * multiplier + remainder
 
 # Funkcja zamieniająca czas kwartański na czas ziemski :)
+# Funkcja zwraca wartość typu datetime.time
 def conv_time(kwart_time):
     kwart_time = kwart_time.split(':')
     return time( \
@@ -91,6 +92,7 @@ for n in range(1, count + 1):
                 print("error")
             # Wyznaczenie najdluższego okresu i ilości pomiarów właściwych (zad 1.2)
             if longest_period['counter'] <= continuous_period['counter']:
+                # Aby obliczyć różnicę czasu należy time skonwertować do datetime
                 longest_period['period'] = str( \
                     datetime.combine(date.today(), continuous_period['end_time']) - \
                     datetime.combine(date.today(), continuous_period['begin_time']))
