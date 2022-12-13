@@ -38,14 +38,11 @@ with open(filename, 'w') as f:
     answers = []
     for i in range(1, 1000):
         for j in range(i, 1000):
-            try:
-                answer = szukaj_pierwotnych_trojek(i, j)
-                if answer not in answers:
-                    print(answer[0])
-                    print(f"{answer[1]} PIERWOTNE\n------------------")
+            answer = szukaj_pierwotnych_trojek(i, j)
+            if answer != None and answer not in answers:
+                print(answer[0])
+                print(f"{answer[1]} PIERWOTNE\n------------------")
 
-                    f.write(f"{answer[0]}\n")
-                    f.write(f"{answer[1]} PIERWOTNE\n------------------\n")
-                    answers.append(answer)
-            except TypeError:
-                continue
+                f.write(f"{answer[0]}\n")
+                f.write(f"{answer[1]} PIERWOTNE\n------------------\n")
+                answers.append(answer)
