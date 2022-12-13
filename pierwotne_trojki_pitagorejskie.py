@@ -33,14 +33,19 @@ def szukaj_pierwotnych_trojek(x, y):
     if any_possible:
         return [any_possible, pierwotne]
 
-answers = []
-for i in range(1, 1000):
-    for j in range(i, 1000):
-        try:
-            answer = szukaj_pierwotnych_trojek(i, j)
-            if answer not in answers:
-                print(answer[0])
-                print(f"{answer[1]} PIERWOTNE\n------------------")
-                answers.append(answer)
-        except TypeError:
-            continue
+filename = 'trojki_pitagorejski.txt'
+with open(filename, 'w') as f:
+    answers = []
+    for i in range(1, 1000):
+        for j in range(i, 1000):
+            try:
+                answer = szukaj_pierwotnych_trojek(i, j)
+                if answer not in answers:
+                    print(answer[0])
+                    print(f"{answer[1]} PIERWOTNE\n------------------")
+
+                    f.write(f"{answer[0]}\n")
+                    f.write(f"{answer[1]} PIERWOTNE\n------------------\n")
+                    answers.append(answer)
+            except TypeError:
+                continue
