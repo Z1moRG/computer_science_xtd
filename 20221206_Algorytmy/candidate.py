@@ -23,5 +23,15 @@ def losuj_numpy(N):
     A[idol] = numpy.zeros((1, N))
     return A
 
+def wypisz(A):
+    print(A)
+    for a, i in enumerate(A):
+        print(i)
+        for b, j in enumerate(i):
+            if a != b:
+                print(f"{j} = {A[a][b]}")
+                
+
 #print(losuj(5))
-print(losuj_numpy(20))
+A = losuj_numpy(5)
+wypisz(A)
